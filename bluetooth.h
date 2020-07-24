@@ -1,8 +1,8 @@
 #ifndef _bluetooth_H    
 #define _bluetooth_H  
+#include "steppermotor_init.h"
 
-//#include "steppermotor_init.h"
- 
+extern int myStepper1ShouldRun;
 int rxpin; 
 int txpin;
 char value;
@@ -43,17 +43,44 @@ void read_bluetooth()
       v = 0;
       w = 0;
     }
-    else if(value == 'A')
+    } else if ( value == 'T' )
     {
-      myStepper.setSpeed(RPM);
-      myStepper.step(stepsPerRevolution);
+      myStepper1ShouldRun = 1;
+    } 
+    else if ( value == 'Y' )
+    {
+      myStepper1ShouldRun = 0;
     }
-    else if(value == 'D')
-    {
-      movestepper_motorright();
-    }*/
-  }
-  else
+    else if(value == 'M')
+     {
+      for(int i = 0; i < max_RPM+1; i++)
+      {
+        myStepper.setSpeed(i);
+        myStepper.step(1);
+      }
+      myStepper.step(30);
+      for(int i = max_RPM; i > 0; i--)
+      {
+        myStepper.setSpeed(i);
+        myStepper.step(1);
+      }
+     }
+
+      else if(value == 'N')
+     {
+      for(int i = 0; i < max_RPM+1; i++)
+      {
+        myStepper.setSpeed(i);
+        myStepper.step(-1);
+      }
+      myStepper.step(-30);
+      for(int i = max_RPM; i > 0; i--)
+      {
+        myStepper.setSpeed(i);
+        myStepper.step(-1);
+     }
+   }
+ else
   {
     v = 0;
     w = 0;
