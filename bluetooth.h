@@ -54,8 +54,6 @@ void read_bluetooth()
     }
     else if(value == 'J')                       //ARM LEFT
      {
-          Serial.print(value);
-
        digitalWrite(dirPin, HIGH);
       for (int i = 0; i < stepsPerRevolution; i++) 
       {
@@ -68,8 +66,6 @@ void read_bluetooth()
      }
       else if(value == 'L')                    //ARM RIGHT
      {
-          Serial.print(value);
-
       digitalWrite(dirPin, LOW);
       for (int i = 0; i < stepsPerRevolution; i++) 
       {
