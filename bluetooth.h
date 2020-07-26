@@ -43,7 +43,7 @@ void read_bluetooth()
       v = 0;
       w = 0;
     }
-    } else if ( value == 'T' )
+    else if ( value == 'T' )
     {
       myStepper1ShouldRun = 1;
     } 
@@ -51,35 +51,34 @@ void read_bluetooth()
     {
       myStepper1ShouldRun = 0;
     }
-    else if(value == 'M')
+    else if(value == 'M')                       //ARM LEFT
      {
-      for(int i = 0; i < max_RPM+1; i++)
-      {
-        myStepper.setSpeed(i);
-        myStepper.step(1);
-      }
-      myStepper.step(30);
-      for(int i = max_RPM; i > 0; i--)
-      {
-        myStepper.setSpeed(i);
-        myStepper.step(1);
-      }
-     }
+          Serial.print(value);
 
-      else if(value == 'N')
-     {
-      for(int i = 0; i < max_RPM+1; i++)
+       digitalWrite(dirPin, HIGH);
+      for (int i = 0; i < stepsPerRevolution; i++) 
       {
-        myStepper.setSpeed(i);
-        myStepper.step(-1);
+        digitalWrite(stepPin, HIGH);
+        delayMicroseconds(1000);
+        digitalWrite(stepPin, LOW);
+        delayMicroseconds(1000);
       }
-      myStepper.step(-30);
-      for(int i = max_RPM; i > 0; i--)
-      {
-        myStepper.setSpeed(i);
-        myStepper.step(-1);
+      
      }
-   }
+      else if(value == 'N')                    //ARM RIGHT
+     {
+          Serial.print(value);
+
+      digitalWrite(dirPin, LOW);
+      for (int i = 0; i < stepsPerRevolution; i++) 
+      {
+        digitalWrite(stepPin, HIGH);
+        delayMicroseconds(1000);
+        digitalWrite(stepPin, LOW);
+        delayMicroseconds(1000);
+      }
+     }
+  }
  else
   {
     v = 0;
