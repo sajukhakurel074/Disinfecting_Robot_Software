@@ -17,41 +17,42 @@ void read_bluetooth()
   if(Serial.available())
   {   
     value = Serial.read();
+    Serial.print(value);
 
-    if(value == 'F' )
+    if(value == 'W' )
     {
       v = vel;
       w = 0; 
     }
-    else if(value == 'B' )
+    else if(value == 'S' )
     {
       v = -vel;
       w = 0;
     }
-    else if(value == 'R' )
+    else if(value == 'D' )
     {
       v = 0;
       w = -vel;
     }
-    else if(value == 'L' )
+    else if(value == 'A' )
     {
       v = 0;
       w = -vel;
     }
-    else if(value == 'S' )
+    else if(value == 'T' )
     {
       v = 0;
       w = 0;
     }
-    else if ( value == 'T' )
+    else if ( value == 'I' )                    //ARM UP
     {
       myStepper1ShouldRun = 1;
     } 
-    else if ( value == 'Y' )
+    else if ( value == 'K' )                    //ARM DOWN
     {
       myStepper1ShouldRun = 0;
     }
-    else if(value == 'M')                       //ARM LEFT
+    else if(value == 'J')                       //ARM LEFT
      {
           Serial.print(value);
 
@@ -65,7 +66,7 @@ void read_bluetooth()
       }
       
      }
-      else if(value == 'N')                    //ARM RIGHT
+      else if(value == 'L')                    //ARM RIGHT
      {
           Serial.print(value);
 

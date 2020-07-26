@@ -4,7 +4,6 @@
 #include "proxy_init.h"
 
 
-
 int mots[4] = {0, 0, 0, 0};
 int mot[4] = {0, 0, 0, 0};
 int s = 0;
@@ -20,9 +19,35 @@ void setup()
 }
 
 void loop()
-{
-    
+{  
   read_bluetooth();
+  
+  if(myStepper1ShouldRun)
+   {
+      digitalWrite(dirPin1, HIGH);
+      for (int i = 0; i < stepsPerRevolution1; i++) 
+      {
+        digitalWrite(stepPin1, HIGH);
+        delayMicroseconds(2000);
+        digitalWrite(stepPin1, LOW);
+        delayMicroseconds(2000);
+      }
+      delay(2000);
+      digitalWrite(dirPin1, LOW);
+      for (int i = 0; i < stepsPerRevolution1; i++) 
+      {
+        digitalWrite(stepPin1, HIGH);
+        delayMicroseconds(2000);
+        digitalWrite(stepPin1, LOW);
+        delayMicroseconds(2000);
+      }
+      delay(2000);
+    }
+    else
+    {
+     digitalWrite(stepPin1, LOW); 
+    }
+    
   calculate_velocity();
   set_velocity();
 }

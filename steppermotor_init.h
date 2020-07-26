@@ -4,23 +4,24 @@
 #define RPM 5
 #include <Stepper.h>
 
-  int myStepper1Steps = 0;
-  int myStepper1RPM = 1;
-  int myStepper1Dir = 1;
   int myStepper1ShouldRun = 0;
 
   const int stepPin = 53;
   const int dirPin = 51;
+  const int stepPin1 = 52;
+  const int dirPin1 = 50;
+  
 
   const int stepsPerRevolution = 50;
   const int stepsPerRevolution1 = 33;
-
-  char value1;
 
 void steppermotor_init()
 {
   pinMode(stepPin, OUTPUT);
   pinMode(dirPin, OUTPUT);
+  pinMode(stepPin1, OUTPUT);
+  pinMode(dirPin1, OUTPUT);
+  
 }
 
 
