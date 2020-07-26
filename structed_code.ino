@@ -6,7 +6,7 @@
 
 int mots[4] = {0, 0, 0, 0};
 int mot[4] = {0, 0, 0, 0};
-int s = 0, Sig;
+int s = 0;
 
 
 void setup()
@@ -39,8 +39,7 @@ void setup()
 void loop()
 {  
   read_bluetooth();
-  
-  if(myStepper1ShouldRun)
+   if(myStepper1ShouldRun)
    {
       digitalWrite(dirPin1, LOW);
       for (int i = 0; i < stepsPerRevolution; i++) 
@@ -65,7 +64,24 @@ void loop()
     {
      digitalWrite(stepPin1, LOW); 
     }
-    
+
+  if(digitalRead(proxy[4].SIG) || digitalRead(proxy[5].SIG))
+  {
+    if(motor_dir == MOTOR_FORWARD)
+    {
+      v = 0;
+      w = 0;
+    }
+  }
+  if(digitalRead(proxy[6].SIG) || digitalRead(proxy[7].SIG))
+  {
+    if(motor_dir == MOTOR_BACKWARD)
+    {
+      v = 0;
+      w = 0;
+    }
+  }
+  
   calculate_velocity();
   set_velocity();
 }
@@ -110,5 +126,4 @@ void set_velocity()
       }  
       //Serial.println("   ");     
 }
-    
 

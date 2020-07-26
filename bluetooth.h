@@ -10,6 +10,11 @@ float vel=40;
 float v = 0;
 float w = 0;
 float vel_max = 255;
+int motor_dir;
+enum
+{
+  MOTOR_FORWARD=0 , MOTOR_BACKWARD, MOTOR_LEFT, MOTOR_RIGHT
+};
 
 
 void read_bluetooth()
@@ -23,21 +28,25 @@ void read_bluetooth()
     {
       v = vel;
       w = 0; 
+      motor_dir = MOTOR_FORWARD;
     }
     else if(value == 'S' )
     {
       v = -vel;
       w = 0;
+      motor_dir = MOTOR_BACKWARD;
     }
     else if(value == 'D' )
     {
       v = 0;
       w = -vel;
+      motor_dir = MOTOR_LEFT;
     }
     else if(value == 'A' )
     {
       v = 0;
       w = -vel;
+      motor_dir = MOTOR_RIGHT;
     }
     else if(value == 'T' )
     {

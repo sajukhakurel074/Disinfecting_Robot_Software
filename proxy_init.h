@@ -27,6 +27,7 @@ void proxy_init()
   pinMode(proxy[5].SIG, INPUT);
   pinMode(proxy[6].SIG, INPUT);
   pinMode(proxy[7].SIG, INPUT);
+  
 }
 
 
