@@ -1,28 +1,54 @@
 #ifndef _steppermotor_init_H    
 #define _steppermotor_init_H  
 
-#define RPM 5
-#include <Stepper.h>
 
-  int myStepper1ShouldRun = 0;
-
-  const int stepPin = 53;
-  const int dirPin = 51;
-  const int stepPin1 = 52;
-  const int dirPin1 = 50;
+  const int stepPin2 = 5;
+  const int dirPin2 = 4;
   
+  const int stepPin1 = 11;
+  const int dirPin1 = 3;
 
-  const int stepsPerRevolution = 50;
-  const int stepsPerRevolution1 = 33;
-
+  
 void steppermotor_init()
-{
-  pinMode(stepPin, OUTPUT);
-  pinMode(dirPin, OUTPUT);
-  pinMode(stepPin1, OUTPUT);
-  pinMode(dirPin1, OUTPUT);
-  
+{ 
+ pinMode(dirPin1, OUTPUT);
+ pinMode(dirPin2, OUTPUT);
 }
 
+
+void enable_timer1()
+{
+  DDRB |= (1 << PB5);
+  cli(); 
+  TCNT1 = 0;
+
+  TCCR1A = 0b01000001;
+  TCCR1B = 0b00010101;
+
+  //TIMSK1 |= (1 << OCIE1A);
+  OCR1A = 260;
+
+  sei();
+}
+
+void enable_timer2()
+{
+  DDRE |= (1 << PE3);
+  cli(); 
+  TCNT3 = 0;
+
+  TCCR3A = 0b01000001;
+  TCCR3B = 0b00010101;
+
+  //TIMSK1 |= (1 << OCIE1A);
+  OCR3A = 260;
+
+  sei();
+}
+
+ISR(TIMER_COMPA_vect)
+{
+  
+}
 
 #endif // _steppermotor_init_H   

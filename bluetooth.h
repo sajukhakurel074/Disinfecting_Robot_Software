@@ -3,8 +3,6 @@
 #include "steppermotor_init.h"
 
 extern int myStepper1ShouldRun;
-int rxpin; 
-int txpin;
 char value;
 float vel=40;
 float v = 0;
@@ -23,7 +21,7 @@ void read_bluetooth()
   {   
     value = Serial.read();
     Serial.print(value);
-
+    
     if(value == 'W' )
     {
       v = vel;
@@ -48,41 +46,29 @@ void read_bluetooth()
       w = -vel;
       motor_dir = MOTOR_RIGHT;
     }
-    else if(value == 'T' )
+    else if(value == 'T' )                     //Stop_robot
     {
       v = 0;
       w = 0;
     }
     else if ( value == 'I' )                    //ARM UP
     {
-      myStepper1ShouldRun = 1;
+      enable_timer1();
     } 
-    else if ( value == 'K' )                    //ARM DOWN
+    else if ( value == 'K' )                    //ARM STOP
     {
-      myStepper1ShouldRun = 0;
+      TCCR1A = 0;
+      TCCR1B = 0;
     }
     else if(value == 'J')                       //ARM LEFT
      {
-       digitalWrite(dirPin, HIGH);
-      for (int i = 0; i < stepsPerRevolution; i++) 
-      {
-        digitalWrite(stepPin, HIGH);
-        delayMicroseconds(1000);
-        digitalWrite(stepPin, LOW);
-        delayMicroseconds(1000);
-      }
-      
+       enable_timer2();
+       digitalWrite(dirPin2, HIGH);
      }
       else if(value == 'L')                    //ARM RIGHT
      {
-      digitalWrite(dirPin, LOW);
-      for (int i = 0; i < stepsPerRevolution; i++) 
-      {
-        digitalWrite(stepPin, HIGH);
-        delayMicroseconds(1000);
-        digitalWrite(stepPin, LOW);
-        delayMicroseconds(1000);
-      }
+      enable_timer2();
+      digitalWrite(dirPin2, LOW);
      }
   }
  else

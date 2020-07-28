@@ -3,6 +3,9 @@
 
 #include "stdio.h"
 
+int proxy_up;
+int proxy_down;
+
 struct proxy
 {
   int SIG;
@@ -12,8 +15,10 @@ void proxy_init()
 {
   proxy[0].SIG = 40;   //stepper_motor_yaxis
   proxy[1].SIG = 41;   //stepper_motor_-yaxis
+  
   proxy[2].SIG = 42;   //stepper_motor_xaxis
   proxy[3].SIG = 43;   //stepper_motor_-xaxis
+  
   proxy[4].SIG = 44;   //base_motor_front
   proxy[5].SIG = 45;   //base_motor_front
   proxy[6].SIG = 46;   //base_motor_back

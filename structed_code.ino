@@ -6,7 +6,6 @@
 
 int mots[4] = {0, 0, 0, 0};
 int mot[4] = {0, 0, 0, 0};
-int s = 0;
 
 
 void setup()
@@ -15,23 +14,17 @@ void setup()
   motor_init(); 
   proxy_init();
   steppermotor_init();
-  while(digitalRead(proxy[0].SIG))      //stepper_motor_yaxis
-  {
-    digitalWrite(dirPin1, LOW);
-    digitalWrite(stepPin1, HIGH);
-    delay(15);
-    digitalWrite(stepPin1, LOW);
-    delay(15);
-  }
-  while(digitalRead(proxy[2].SIG))
-  {
-    digitalWrite(dirPin, HIGH);
-    digitalWrite(stepPin, HIGH);
-    delay(1000);
-    digitalWrite(stepPin, LOW);
-    delay(1000);
-  }
-  
+  enable_timer1();
+  enable_timer2();
+
+  while(digitalRead(proxy[0].SIG));      //stepper_motor_yaxis
+     TCCR1A = 0;
+     TCCR1B = 0;
+
+  while(digitalRead(proxy[2].SIG));      //stepper_motor_xaxis
+     TCCR3A = 0;
+     TCCR3B = 0;
+    
  Serial.println("ALL INITIALIZED");
     
 }
@@ -39,32 +32,21 @@ void setup()
 void loop()
 {  
   read_bluetooth();
-   if(myStepper1ShouldRun)
-   {
-      digitalWrite(dirPin1, LOW);
-      for (int i = 0; i < stepsPerRevolution; i++) 
-      {
-        digitalWrite(stepPin1, HIGH);
-        delayMicroseconds(1000);
-        digitalWrite(stepPin1, LOW);
-        delayMicroseconds(1000);
-      }
-      delay(2000);
-      digitalWrite(dirPin1, HIGH);
-      for (int i = 0; i < stepsPerRevolution; i++) 
-      {
-        digitalWrite(stepPin1, HIGH);
-        delayMicroseconds(1000);
-        digitalWrite(stepPin1, LOW);
-        delayMicroseconds(1000);
-      }
-      delay(2000);
-    }
-    else
-    {
-     digitalWrite(stepPin1, LOW); 
-    }
+  
+  proxy_up = digitalRead(proxy[0].SIG);
+  proxy_down = digitalRead(proxy[1].SIG);
 
+  if(proxy_up == 0)
+  {
+    digitalWrite(dirPin1, HIGH);
+  }
+  
+  if(proxy_down == 0)
+  {
+    digitalWrite(dirPin1, LOW);
+  }
+
+     
   if(digitalRead(proxy[4].SIG) || digitalRead(proxy[5].SIG))
   {
     if(motor_dir == MOTOR_FORWARD)
