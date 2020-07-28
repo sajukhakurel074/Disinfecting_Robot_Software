@@ -14,14 +14,16 @@ void setup()
   motor_init(); 
   proxy_init();
   steppermotor_init();
-  enable_timer1();
-  enable_timer2();
-
-  while(digitalRead(proxy[0].SIG));      //stepper_motor_yaxis
+  
+  digitalWrite(diry, HIGH);
+  enable_yaxis_stepper();
+  while(digitalRead(PROXY_UP));      //stepper_motor_yaxis
      TCCR1A = 0;
      TCCR1B = 0;
 
-  while(digitalRead(proxy[2].SIG));      //stepper_motor_xaxis
+  digitalWrite(dirx, HIGH);
+  enable_xaxis_stepper();
+  while(digitalRead(PROXY_LEFT));      //stepper_motor_xaxis
      TCCR3A = 0;
      TCCR3B = 0;
     
@@ -33,17 +35,17 @@ void loop()
 {  
   read_bluetooth();
   
-  proxy_up = digitalRead(proxy[0].SIG);
-  proxy_down = digitalRead(proxy[1].SIG);
+  proxy_up = digitalRead(PROXY_UP);
+  proxy_down = digitalRead(PROXY_DOWN);
 
   if(proxy_up == 0)
   {
-    digitalWrite(dirPin1, HIGH);
+    digitalWrite(diry, HIGH);
   }
   
   if(proxy_down == 0)
   {
-    digitalWrite(dirPin1, LOW);
+    digitalWrite(diry, LOW);
   }
 
      

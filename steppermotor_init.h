@@ -1,22 +1,25 @@
 #ifndef _steppermotor_init_H    
 #define _steppermotor_init_H  
+#include "proxy_init.h"
 
+  const int stepy = 11;
+  const int diry = 31;
 
-  const int stepPin2 = 5;
-  const int dirPin2 = 4;
+  const int stepx = 5;
+  const int dirx = 30;
   
-  const int stepPin1 = 11;
-  const int dirPin1 = 3;
+  int steps = 0;
+  const int stepsPerRevolution = 17;
 
   
 void steppermotor_init()
 { 
- pinMode(dirPin1, OUTPUT);
- pinMode(dirPin2, OUTPUT);
+ pinMode(dirx, OUTPUT);
+ pinMode(diry, OUTPUT);
 }
 
 
-void enable_timer1()
+void enable_yaxis_stepper()
 {
   DDRB |= (1 << PB5);
   cli(); 
@@ -31,7 +34,7 @@ void enable_timer1()
   sei();
 }
 
-void enable_timer2()
+void enable_xaxis_stepper()
 {
   DDRE |= (1 << PE3);
   cli(); 
@@ -40,15 +43,26 @@ void enable_timer2()
   TCCR3A = 0b01000001;
   TCCR3B = 0b00010101;
 
-  //TIMSK1 |= (1 << OCIE1A);
+  TIMSK3 |= (1 << OCIE1A);
   OCR3A = 260;
 
   sei();
 }
 
-ISR(TIMER_COMPA_vect)
+ISR(TIMER3_COMPA_vect)
 {
-  
+  int proxy_right = digitalRead(PROXY_RIGHT);
+  int proxy_left = digitalRead(PROXY_LEFT);
+  if ( !proxy_right || !proxy_left || steps == stepsPerRevolution) 
+   {
+      TCCR3A = 0;
+      TCCR3B = 0;
+      steps = 0;
+    }
+  else
+  {
+    steps++;
+  }
 }
 
-#endif // _steppermotor_init_H   
+#endif // _steppermotor_````````111111111111111111111111111111init_H   

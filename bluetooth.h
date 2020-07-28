@@ -53,7 +53,7 @@ void read_bluetooth()
     }
     else if ( value == 'I' )                    //ARM UP
     {
-      enable_timer1();
+      enable_yaxis_stepper();
     } 
     else if ( value == 'K' )                    //ARM STOP
     {
@@ -61,14 +61,14 @@ void read_bluetooth()
       TCCR1B = 0;
     }
     else if(value == 'J')                       //ARM LEFT
-     {
-       enable_timer2();
-       digitalWrite(dirPin2, HIGH);
+     { 
+      digitalWrite(dirx, HIGH);
+       enable_xaxis_stepper();
      }
       else if(value == 'L')                    //ARM RIGHT
      {
-      enable_timer2();
-      digitalWrite(dirPin2, LOW);
+      digitalWrite(dirx, LOW);
+      enable_xaxis_stepper();
      }
   }
  else

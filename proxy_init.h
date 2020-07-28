@@ -11,23 +11,23 @@ struct proxy
   int SIG;
 }proxy[8];
 
-void proxy_init()
+enum
 {
-  proxy[0].SIG = 40;   //stepper_motor_yaxis
-  proxy[1].SIG = 41;   //stepper_motor_-yaxis
-  
-  proxy[2].SIG = 42;   //stepper_motor_xaxis
-  proxy[3].SIG = 43;   //stepper_motor_-xaxis
-  
+  PROXY_LEFT = 40, PROXY_RIGHT, PROXY_UP, PROXY_DOWN
+};
+
+void proxy_init()
+{ 
   proxy[4].SIG = 44;   //base_motor_front
   proxy[5].SIG = 45;   //base_motor_front
+  
   proxy[6].SIG = 46;   //base_motor_back
   proxy[7].SIG = 47;   //base_motor_back
   
-  pinMode(proxy[0].SIG, INPUT);
-  pinMode(proxy[1].SIG, INPUT);
-  pinMode(proxy[2].SIG, INPUT);
-  pinMode(proxy[3].SIG, INPUT);
+  pinMode(PROXY_LEFT, INPUT);
+  pinMode(PROXY_RIGHT, INPUT);
+  pinMode(PROXY_UP, INPUT);
+  pinMode(PROXY_DOWN, INPUT);
   pinMode(proxy[4].SIG, INPUT);
   pinMode(proxy[5].SIG, INPUT);
   pinMode(proxy[6].SIG, INPUT);
