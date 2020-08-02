@@ -13,25 +13,20 @@ struct proxy
 
 enum
 {
-  PROXY_LEFT = 40, PROXY_RIGHT, PROXY_UP, PROXY_DOWN
+  PROXY_LEFT = 40, PROXY_RIGHT, PROXY_UP, PROXY_DOWN, PROXY_FRONT, PROXY_BACK
 };
 
 void proxy_init()
 { 
-  proxy[4].SIG = 44;   //base_motor_front
-  proxy[5].SIG = 45;   //base_motor_front
-  
-  proxy[6].SIG = 46;   //base_motor_back
-  proxy[7].SIG = 47;   //base_motor_back
   
   pinMode(PROXY_LEFT, INPUT);
   pinMode(PROXY_RIGHT, INPUT);
   pinMode(PROXY_UP, INPUT);
   pinMode(PROXY_DOWN, INPUT);
-  pinMode(proxy[4].SIG, INPUT);
-  pinMode(proxy[5].SIG, INPUT);
-  pinMode(proxy[6].SIG, INPUT);
-  pinMode(proxy[7].SIG, INPUT);
+  pinMode(PROXY_FRONT, INPUT);
+  pinMode(PROXY_BACK, INPUT);
+  /*pinMode(proxy[6].SIG, INPUT);
+  pinMode(proxy[7].SIG, INPUT);*/
   
 }
 

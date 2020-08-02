@@ -22,7 +22,7 @@ void setup()
      TCCR1B = 0;
 
   digitalWrite(dirx, HIGH);
-  enable_xaxis_stepper();
+  enable_xaxis_stepper_setup();
   while(digitalRead(PROXY_LEFT));      //stepper_motor_xaxis
      TCCR3A = 0;
      TCCR3B = 0;
@@ -48,7 +48,7 @@ void loop()
     digitalWrite(diry, LOW);
   }
 
-     
+   
   if(digitalRead(proxy[4].SIG) || digitalRead(proxy[5].SIG))
   {
     if(motor_dir == MOTOR_FORWARD)
@@ -66,8 +66,8 @@ void loop()
     }
   }
   
-  calculate_velocity();
-  set_velocity();
+  //calculate_velocity();
+  //set_velocity();
 }
 
 void calculate_velocity()
@@ -101,13 +101,13 @@ void set_velocity()
           mots[i]--;
         }
         int dutycycle = (mots[i]/vel_max)*255;
-        //Serial.print("dc:");
-        //Serial.print(dutycycle);
-        //Serial.print("\t"); 
+        Serial.print("dc:");
+        Serial.print(dutycycle);
+        Serial.print("\t"); 
         digitalWrite( motor[i].IN1, mot[i] > 0 );
         digitalWrite( motor[i].IN2, mot[i] < 0 );
         analogWrite( motor[i].EN, dutycycle);
       }  
-      //Serial.println("   ");     
+      Serial.println("   ");     
 }
 

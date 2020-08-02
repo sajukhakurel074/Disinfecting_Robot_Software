@@ -3,13 +3,13 @@
 #include "proxy_init.h"
 
   const int stepy = 11;
-  const int diry = 31;
+  const int diry = 37;
 
   const int stepx = 5;
-  const int dirx = 30;
+  const int dirx = 38;
   
   int steps = 0;
-  const int stepsPerRevolution = 17;
+  const int stepsPerRevolution = 100;
 
   
 void steppermotor_init()
@@ -34,6 +34,20 @@ void enable_yaxis_stepper()
   sei();
 }
 
+void enable_xaxis_stepper_setup()
+{
+  DDRE |= (1 << PE3);
+  cli(); 
+  TCNT3 = 0;
+
+  TCCR3A = 0b01000001;
+  TCCR3B = 0b00010101;
+
+  OCR3A = 260;
+
+  sei();
+}
+
 void enable_xaxis_stepper()
 {
   DDRE |= (1 << PE3);
@@ -53,16 +67,32 @@ ISR(TIMER3_COMPA_vect)
 {
   int proxy_right = digitalRead(PROXY_RIGHT);
   int proxy_left = digitalRead(PROXY_LEFT);
-  if ( !proxy_right || !proxy_left || steps == stepsPerRevolution) 
-   {
-      TCCR3A = 0;
-      TCCR3B = 0;
-      steps = 0;
+  if(dirx == 1)
+    {
+      if ( !proxy_left || steps == stepsPerRevolution)  
+      {
+        TCCR3A = 0;
+        TCCR3B = 0;
+        steps = 0;
+      }
+      else
+      {
+        steps++;
+      }
     }
-  else
-  {
-    steps++;
-  }
-}
+   else
+   {
+       if ( !proxy_right || steps == stepsPerRevolution)  
+      {
+        TCCR3A = 0;
+        TCCR3B = 0;
+        steps = 0;
+      }
+      else
+       {
+        steps++;
+        }
+    }
+} 
 
-#endif // _steppermotor_````````111111111111111111111111111111init_H   
+#endif // _steppermotor_init_H   

@@ -4,7 +4,7 @@
 
 extern int myStepper1ShouldRun;
 char value;
-float vel=40;
+float vel=60;
 float v = 0;
 float w = 0;
 float vel_max = 255;
@@ -71,11 +71,11 @@ void read_bluetooth()
       enable_xaxis_stepper();
      }
   }
- else
+/* else
   {
     v = 0;
     w = 0;
-  }
+  } */
   
 }
 #endif // _bluetooth_H   
