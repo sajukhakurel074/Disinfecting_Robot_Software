@@ -4,10 +4,13 @@
 
 extern int myStepper1ShouldRun;
 char value;
-float vel=60;
+float vel = 200;
 float v = 0;
 float w = 0;
+const int pump = 51;
 float vel_max = 255;
+float vel_max_side = 1500;
+int dutycycle = 0;
 int motor_dir;
 enum
 {
@@ -20,7 +23,16 @@ void read_bluetooth()
   if(Serial.available())
   {   
     value = Serial.read();
-    Serial.print(value);
+    //Serial.print(value);
+    if(value == 'Z' )
+    {
+      digitalWrite(pump, HIGH);
+    }
+
+    if(value == 'X' )
+    {
+      digitalWrite(pump, LOW);
+    }
     
     if(value == 'W' )
     {
@@ -28,54 +40,72 @@ void read_bluetooth()
       w = 0; 
       motor_dir = MOTOR_FORWARD;
     }
+    
     else if(value == 'S' )
     {
       v = -vel;
       w = 0;
       motor_dir = MOTOR_BACKWARD;
     }
+    
     else if(value == 'D' )
     {
-      v = 0;
-      w = -vel;
-      motor_dir = MOTOR_LEFT;
-    }
-    else if(value == 'A' )
-    {
-      v = 0;
-      w = -vel;
+      v = vel;
+      w = 0;
       motor_dir = MOTOR_RIGHT;
     }
+    
+    else if(value == 'A' )
+    {
+      v = vel;
+      w = 0;
+      motor_dir = MOTOR_LEFT;
+    }
+    
     else if(value == 'T' )                     //Stop_robot
     {
       v = 0;
       w = 0;
+      
     }
-    else if ( value == 'I' )                    //ARM UP
+
+    else if (value == '+' ){
+      Serial.print( value );
+      delay( 200 );
+      while( Serial.available() ){
+        value = Serial.read();
+        Serial.print( value );
+      }
+    }
+    
+  /*  else if ( value == 'I' )                    //ARM UP
     {
       enable_yaxis_stepper();
     } 
+    
     else if ( value == 'K' )                    //ARM STOP
     {
+      steps = 0;
       TCCR1A = 0;
       TCCR1B = 0;
+      digitalWrite(en_y, HIGH);
     }
+    
     else if(value == 'J')                       //ARM LEFT
      { 
+      steps = 0;
       digitalWrite(dirx, HIGH);
-       enable_xaxis_stepper();
+      enable_xaxis_stepper();
+      proxy_to_read = PROXY_LEFT;
      }
+     
       else if(value == 'L')                    //ARM RIGHT
      {
       digitalWrite(dirx, LOW);
       enable_xaxis_stepper();
-     }
-  }
-/* else
-  {
-    v = 0;
-    w = 0;
-  } */
+      proxy_to_read = PROXY_RIGHT;
   
+     }*/
+  }
 }
 #endif // _bluetooth_H   
