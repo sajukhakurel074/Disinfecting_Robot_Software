@@ -12,20 +12,20 @@ struct motor
 
 void motor_init()
 {
-  motor[0].EN = 6;
-  motor[0].IN1 = 24;
-  motor[0].IN2 = 23;
+  motor[0].EN = 8;
+  motor[0].IN1 = 22;
+  motor[0].IN2 = 24;
   
-  motor[1].EN = 7;
-  motor[1].IN1 = 34;
-  motor[1].IN2 = 33;                                                                                 ;
+  motor[1].EN = 10;
+  motor[1].IN1 = 25;
+  motor[1].IN2 = 23;                                                                                 ;
   
-  motor[2].EN = 8;
-  motor[2].IN1 = 28;
-  motor[2].IN2 = 27;
+  motor[2].EN = 7;
+  motor[2].IN1 = 26;
+  motor[2].IN2 = 28;
   
-  motor[3].EN = 10;
-  motor[3].IN1 = 31;
+  motor[3].EN = 6;
+  motor[3].IN1 = 32;
   motor[3].IN2 = 30;
 
   pinMode(motor[0].EN, OUTPUT);

@@ -1,59 +1,38 @@
 #include "motor_init.h"
 #include "bluetooth.h"
-//#include "steppermotor_init.h"
+#include "steppermotor_init.h"
 #include "proxy_init.h"
-
 
 int mots[4] = {0, 0, 0, 0};
 int mot[4] = {0, 0, 0, 0};
-
-
+#define BLUETOOTH_STATE_PIN 2
 void setup()
 {
   Serial.begin(9600);
   pinMode( pump, OUTPUT );
+  pinMode( BLUETOOTH_STATE_PIN, INPUT );
   motor_init(); 
   proxy_init();
-  //steppermotor_init();
-  
- /* digitalWrite(diry, HIGH);
-  enable_yaxis_stepper();
-  while(digitalRead(PROXY_UP));      //stepper_motor_yaxis
-     TCCR1A = 0;
-     TCCR1B = 0;
-
+  steppermotor_init();
+  servo_init();
   digitalWrite(dirx, HIGH);
   enable_xaxis_stepper_setup();
+  #if 0
   while(digitalRead(PROXY_LEFT));      //stepper_motor_xaxis
      TCCR3A = 0;
      TCCR3B = 0;
-    
- Serial.println("ALL INITIALIZED");*/
- 
- digitalWrite(en_y, HIGH);
- digitalWrite(en_x, HIGH);}
-
+   #endif 
+ Serial.println("ALL INITIALIZED");
+ digitalWrite(en_x, HIGH);
+}
 void loop()
 {  
- 
-  
+  if ( 0 ){
+//     turn_off_robot();
+  } else { 
+#if 1
   read_bluetooth();
-
- /* proxy_up = digitalRead(PROXY_UP);
-  proxy_down = digitalRead(PROXY_DOWN);
-
-  if(proxy_up == 0)
-  {
-    digitalWrite(diry, HIGH);
-  }
-  
-  if(proxy_down == 0)
-  {
-    digitalWrite(diry, LOW);
-  }
-  */
-  
-  /*if(digitalRead(PROXY_FRONT) || digitalRead(PROXY_FRONT1))
+  if(digitalRead(PROXY_FRONT))
   {
     if(motor_dir == MOTOR_FORWARD)
     {
@@ -71,7 +50,7 @@ void loop()
     }
   }
  
-  if(digitalRead(PROXY_BACK) || digitalRead(PROXY_BACK1))
+  if(digitalRead(PROXY_BACK))
   {
     if(motor_dir == MOTOR_BACKWARD)
     {
@@ -87,10 +66,12 @@ void loop()
          i--;
       }
     }
-  }*/
+  }
  
   calculate_velocity();
   set_velocity();
+  #endif
+  }
 }
 
 void calculate_velocity()
@@ -151,14 +132,14 @@ void set_velocity()
        
       if( i%2 == 0)  
       {
-        dutycycle = fabs((mots[i]/vel_max_side)*255 );
+        dutycycle = fabs((mots[i]/(vel_max*6))*255 );
         analogWrite( motor[i].EN, 255 - dutycycle);
         Serial.print(dutycycle);
         Serial.print("\t");
       }
       else 
       {
-        dutycycle = fabs((mots[i]/vel_max)*255 );
+        dutycycle = fabs(((float)mots[i]/160)*255 );
         analogWrite( motor[i].EN, 255 - dutycycle);
         Serial.print(dutycycle);
         Serial.print("\t");
@@ -186,14 +167,14 @@ void set_velocity()
        
       if( i%2 == 0)  
       {
-        dutycycle = fabs((mots[i]/vel_max)*255 );
+        dutycycle = fabs(((float)mots[i]/160)*255 );
         analogWrite( motor[i].EN, 255 - dutycycle);
         Serial.print(dutycycle);
         Serial.print("\t");
       }
       else 
       {
-        dutycycle = fabs((mots[i]/vel_max_side)*255 );
+        dutycycle = fabs((mots[i]/(vel_max*6))*255 );
         analogWrite( motor[i].EN, 255 - dutycycle);
         Serial.print(dutycycle);
         Serial.print("\t");

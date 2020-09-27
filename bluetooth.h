@@ -1,15 +1,14 @@
 #ifndef _bluetooth_H    
 #define _bluetooth_H  
 #include "steppermotor_init.h"
-
+#include "Servo.h"
 extern int myStepper1ShouldRun;
 char value;
-float vel = 200;
+float vel = 150;
 float v = 0;
 float w = 0;
 const int pump = 51;
 float vel_max = 255;
-float vel_max_side = 1500;
 int dutycycle = 0;
 int motor_dir;
 enum
@@ -23,7 +22,8 @@ void read_bluetooth()
   if(Serial.available())
   {   
     value = Serial.read();
-    //Serial.print(value);
+    Serial.print(value);
+   
     if(value == 'Z' )
     {
       digitalWrite(pump, HIGH);
@@ -78,21 +78,19 @@ void read_bluetooth()
       }
     }
     
-  /*  else if ( value == 'I' )                    //ARM UP
+    else if ( value == 'I' )                    //ARM UP
     {
-      enable_yaxis_stepper();
+      move_servo();
     } 
     
     else if ( value == 'K' )                    //ARM STOP
     {
-      steps = 0;
-      TCCR1A = 0;
-      TCCR1B = 0;
-      digitalWrite(en_y, HIGH);
+      stop_servo();
     }
     
     else if(value == 'J')                       //ARM LEFT
      { 
+      if ( !digitalRead( PROXY_LEFT ) ) return;
       steps = 0;
       digitalWrite(dirx, HIGH);
       enable_xaxis_stepper();
@@ -101,11 +99,12 @@ void read_bluetooth()
      
       else if(value == 'L')                    //ARM RIGHT
      {
+      if ( !digitalRead( PROXY_RIGHT ) ) return;
       digitalWrite(dirx, LOW);
       enable_xaxis_stepper();
       proxy_to_read = PROXY_RIGHT;
   
-     }*/
+     }
   }
 }
 #endif // _bluetooth_H   
