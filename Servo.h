@@ -1,8 +1,9 @@
-#ifndef _Servo_H    
-#define _Servo_H  
-
+#ifndef _Servo_H
+#define _Servo_H
+#include "common.h"
 #define SERVO_PIN 45
-enum{
+enum
+{
   SERVO_MOVING_UP = 1,
   SERVO_MOVING_DOWN = -1,
   PIN_CHECK = 46,
@@ -13,22 +14,24 @@ enum{
 int servo_steps = SERVO_INITIAL;
 int servo_state = SERVO_MOVING_UP;
 int servo_increment = SERVO_MOVING_UP;
-ISR( TIMER5_OVF_vect ){
+ISR(TIMER5_OVF_vect)
+{
   servo_steps += servo_increment;
   OCR5B = servo_steps;
-  
-  if ( servo_steps > SERVO_FINAL )
+
+  if (servo_steps > SERVO_FINAL)
   {
-    servo_increment = SERVO_MOVING_DOWN;
-  } else if ( servo_steps <= SERVO_INITIAL ){
-    servo_increment = SERVO_MOVING_UP;
+    servo_increment = -1;
+  }
+  else if (servo_steps <= SERVO_INITIAL)
+  {
+    servo_increment = 1;
   }
 }
 
-
-inline void move_servo( )
+inline void move_servo()
 {
-  TIMSK5 = _BV( TOIE5 );
+  TIMSK5 = _BV(TOIE5);
 }
 
 inline void stop_servo()
@@ -38,12 +41,12 @@ inline void stop_servo()
 
 void servo_init()
 {
-  DDRL |= ( 1 << PL4 );
+  DDRL |= (1 << PL4);
   TCCR5A = _BV(COM1B1);
-  TCCR5B = _BV( CS51) | _BV(CS50) | _BV( WGM53 );
-  ICR5 = 2500; // this determines Frequency
+  TCCR5B = _BV(CS51) | _BV(CS50) | _BV(WGM53);
+  ICR5 = 2500;         // this determines Frequency
   OCR5B = servo_steps; // this determines duty cycle, Servo at 0 degrees
-/*
+  /*
   // This is for moving the servo
   TCNT1 = 0;
   TCCR1A = 0; // Let OC3X pins be used for other purposes
@@ -62,4 +65,4 @@ void servo_init()
 }
 
 */
-#endif // _Servo_H   
+#endif // _Servo_H
