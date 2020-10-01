@@ -45,6 +45,7 @@ void setup()
 #endif
   digitalWrite(en_x, HIGH);
 }
+
 void loop()
 {
   if (!digitalRead(BLUETOOTH_STATE_PIN))
@@ -62,7 +63,7 @@ void loop()
   read_bluetooth();
   if (digitalRead(PROXY_FRONT))
   {
-    if (motor_dir == MOTOR_FORWARD || MOTOR_RIGHT || MOTOR_LEFT)
+    if (motor_dir == MOTOR_FORWARD || motor_dir == MOTOR_RIGHT || motor_dir == MOTOR_LEFT)
     {
       v = 0;
       w = 0;
@@ -76,8 +77,7 @@ void loop()
         {
           analogWrite(motor[i].EN, dutycycle);
         }
-        i--;
-        i--;
+        i -= 2;
       }
     }
   }
@@ -98,8 +98,7 @@ void loop()
         {
           analogWrite(motor[i].EN, dutycycle);
         }
-        i--;
-        i--;
+        i -= 2;
       }
     }
   }
