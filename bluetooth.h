@@ -5,7 +5,7 @@
 #include "Servo.h"
 extern int myStepper1ShouldRun;
 char value;
-float vel = 140;
+float vel = 100;
 float v = 0;
 float w = 0;
 const int pump = 51;
@@ -55,15 +55,15 @@ void read_bluetooth()
 
     else if (value == 'D')
     {
-      v = vel;
-      w = 0;
+      v = 0;
+      w = vel*2;
       motor_dir = MOTOR_RIGHT;
     }
 
     else if (value == 'A')
     {
-      v = vel;
-      w = 0;
+      v = 0;
+      w = -vel*2;
       motor_dir = MOTOR_LEFT;
     }
 

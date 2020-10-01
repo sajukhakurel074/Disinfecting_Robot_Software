@@ -15,8 +15,8 @@ enum
 {
   PROXY_LEFT = 41, 
   PROXY_RIGHT = 43, 
-  PROXY_FRONT = 47,
-  PROXY_BACK = 49
+  PROXY_FRONT = 49,
+  PROXY_BACK = 47
 };
 
 void proxy_init()
