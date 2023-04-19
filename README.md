@@ -28,4 +28,6 @@ Micro Controller
 Arduino Mega is used as the main controller of the robot. All the switchings, processing the data from sensors and controlling the motor driver and so on is done through the Arduino Mega.
 
 #Mobile Application
+Raspberry pi cam was used for video streaming.
+![120199789_743618656485503_3487129591991445372_n](https://user-images.githubusercontent.com/57697867/233013464-092fc5b7-4288-44f7-b040-07b2ef911854.png)
 
